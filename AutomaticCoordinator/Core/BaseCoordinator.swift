@@ -1,0 +1,121 @@
+
+/// Базовый класс для координатора
+open class BaseCoordinator {
+	/// Роутер координатора
+	public let router: Routable
+
+	/// Родительский координатор
+	private weak var parentCoordinator: BaseCoordinator?
+
+	/// Слушатель жизненного цикла флоу
+	private let listener = DefaultLifeCycleListener()
+
+	/// Дочерние координаторы
+	private var childCoordinators: [AnyObject] = []
+
+	/// Свойство позволяет считать кол-во юнитов в координаторе
+	/// Если счетчик >= 0 удаляем себя из родительского координатора
+	/// Если счетчик < 0 вызывается assert
+	public private(set) var countUnits: Int = 0 {
+		didSet {
+			assert(countUnits >= 0, "countUnits: \(countUnits) что то пошло не так, исправь!")
+			if countUnits == 0 {
+				Logger.log("Удалил зависимость \(currentName) из \(parentName)")
+				parentCoordinator?.removeDependency(self)
+			}
+		}
+	}
+
+	public init(router: Routable, parent: BaseCoordinator? = nil) {
+		parentCoordinator = parent
+		self.router = router
+		self.router.subscribe(listener)
+
+		listener.recieveEvent = { [weak self] event in
+			switch event {
+			case .decrement: self?.decrement()
+			case .increment: self?.increment()
+			case .startNotify: self?.startNotify()
+			case let .dismissNotify(event): self?.dismissNotify(event: event)
+			case let .toRootNofity(router): self?.toRootNofity(in: router)
+			}
+		}
+	}
+
+	deinit {
+		Logger.log("\(currentName) dealloc")
+	}
+}
+
+// MARK: - Private life cycle
+
+private extension BaseCoordinator {
+	func addDependency(_ coordinator: BaseCoordinator) {
+		guard !childCoordinators.contains(where: { $0 === coordinator }) else {
+			return
+		}
+
+		childCoordinators.append(coordinator)
+	}
+
+	func removeDependency(_ coordinator: BaseCoordinator) {
+		childCoordinators.removeAll { $0 === coordinator }
+	}
+
+	func removeAll() {
+		Logger.log("Удалил все зависимости из \(currentName)")
+		childCoordinators.removeAll()
+	}
+
+	func increment() {
+		if countUnits == 0 {
+			Logger.log("Добавил зависимость \(currentName) в \(parentName)")
+			parentCoordinator?.addDependency(self)
+		}
+		countUnits += 1
+	}
+
+	func decrement() {
+		countUnits -= 1
+	}
+
+	func startNotify() {
+		Logger.log("Ищу корневой координатор по причине старта нового флоу")
+		routerAsTheRoot(router)?.removeAll()
+	}
+
+	func toRootNofity(in router: Routable) {
+		Logger.log("Ищу координатор в котором этот роутер рутовый")
+		routerAsTheRoot(router)?.removeAll()
+		routerAsTheRoot(router)?.countUnits = 1
+	}
+
+	func dismissNotify(event: ApplicationRouter.RouterEvent) {
+		Logger.log("Дисмисс")
+		switch event {
+		case .uikit: routerAsTheRoot(router)?.removeAll()
+		case .userInitiative: routerAsTheRoot(router)?.parentCoordinator?.removeAll()
+		}
+	}
+}
+
+private extension BaseCoordinator {
+	func routerAsTheRoot(_ router: Routable) -> BaseCoordinator? {
+		if parentCoordinator?.router !== router {
+			return self
+		}
+		return parentCoordinator?.routerAsTheRoot(router)
+	}
+
+	var parentName: String {
+		if let parent = parentCoordinator {
+			return String(describing: parent.currentName)
+		}
+		return "Что то рутовое"
+	}
+
+	var currentName: String {
+		return String(describing: Self.self)
+	}
+}
+
