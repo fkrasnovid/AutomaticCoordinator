@@ -20,7 +20,6 @@ open class ApplicationRouter: NSObject {
 		self.rootController = rootController
 		super.init()
 		self.rootController?.delegate = self
-		self.rootController?.presentationController?.delegate = self
 		weak var wSelf = self
 		self.rootController?.popToRootHandler = {
 			guard let self = wSelf else { return }
@@ -63,9 +62,6 @@ extension ApplicationRouter: Routable {
 
 	public func popModule(transition: Transition?, animated: Bool, completion: (() -> Void)?) {
 		popTransition = transition
-
-		assert(rootController?.presentedViewController == nil, "Нельзя использовать пока имеется модальное представление")
-
 		rootController?.popViewController(animated: animated, completion: completion)
 		lastListener?.decrement()
 	}
@@ -79,8 +75,11 @@ extension ApplicationRouter: Routable {
 	) {
 		module.toPresent.modalPresentationStyle = presentationStyle.uiModalPresentationStyle
 		module.toPresent.modalTransitionStyle = transitionStyle.uiModalTransitionStyle
-		UIApplication.shared.topViewController?.present(module.toPresent, animated: animated, completion: completion)
 		module.toPresent.presentationController?.delegate = self
+
+		dismissAlertViewControllerIfNeeded { [weak self] in
+			self?.lastPresented?.present(module.toPresent, animated: animated, completion: completion)
+		}
 
 		/*
 		Важно!
@@ -99,12 +98,12 @@ extension ApplicationRouter: Routable {
 		Если модуль который дисмиссится - UIViewController, то необходимо вызвать decrement
 		Почему? см. presentModule
 		*/
-		if lastPresented is UINavigationController {
+		if lastPresentedHaveNavigation {
 			lastListener?.dismissNotify(event: .userInitiative)
 		} else {
 			lastListener?.decrement()
 		}
-		UIApplication.shared.topViewController?.dismiss(animated: animated, completion: completion)
+		lastPresented?.dismiss(animated: animated, completion: completion)
 	}
 
 	public func setRootModule(_ module: Presentable, transition: Transition?, hideNavigationBar: Bool, animated: Bool) {
@@ -176,7 +175,7 @@ extension ApplicationRouter: UIAdaptivePresentationControllerDelegate {
 	}
 
 	public func adaptivePresentationStyle(for _: UIPresentationController) -> UIModalPresentationStyle {
-		return UIApplication.shared.topViewController?.modalPresentationStyle ?? .overFullScreen
+		return lastPresented?.modalPresentationStyle ?? .overFullScreen
 	}
 }
 
@@ -184,17 +183,19 @@ extension ApplicationRouter: UIAdaptivePresentationControllerDelegate {
 
 private extension ApplicationRouter {
 	var lastPresented: UIViewController? {
-		return lastPresented(viewController: rootController)
+		return UIApplication.shared.topViewController
 	}
 
-	func lastPresented(viewController: UIViewController?) -> UIViewController? {
-		if viewController?.isBeingDismissed == true {
-			return nil
+	var lastPresentedHaveNavigation: Bool {
+		lastPresented?.navigationController != nil
+	}
+
+	func dismissAlertViewControllerIfNeeded(completion: @escaping () -> Void) {
+		guard let alertViewController = lastPresented as? UIAlertController else {
+			completion()
+			return
 		}
-		if viewController?.presentedViewController == nil {
-			return viewController
-		}
-		return lastPresented(viewController: viewController?.presentedViewController) ?? viewController
+		alertViewController.dismiss(animated: false, completion: completion)
 	}
 
 	var lastListener: LifeCycleListener? {

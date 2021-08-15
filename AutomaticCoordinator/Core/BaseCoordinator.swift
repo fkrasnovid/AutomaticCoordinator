@@ -93,7 +93,7 @@ private extension BaseCoordinator {
 	func dismissNotify(event: ApplicationRouter.RouterEvent) {
 		Logger.log("Дисмисс")
 		switch event {
-		case .uikit: routerAsTheRoot(router)?.removeAll()
+		case .uikit: removeAll()
 		case .userInitiative: routerAsTheRoot(router)?.parentCoordinator?.removeAll()
 		}
 	}
