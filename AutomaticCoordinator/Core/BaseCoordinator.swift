@@ -94,7 +94,7 @@ private extension BaseCoordinator {
 		Logger.log("Дисмисс")
 		switch event {
 		case .uikit: removeAll()
-		case .userInitiative: routerAsTheRoot(router)?.parentCoordinator?.removeAll()
+		case .userInitiative: routerAsTheRoot(router)?.parentCoordinator?.removeDependency(self)
 		}
 	}
 }
