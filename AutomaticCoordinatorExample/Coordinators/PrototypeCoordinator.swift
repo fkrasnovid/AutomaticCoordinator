@@ -41,7 +41,7 @@ private extension PrototypeCoordinator {
 			pushModuleHandler: {
 				wSelf?.showModule()
 			},
-			popUnitOrModuleHandler: {
+			closeUnitOrModuleHandler: {
 				wSelf?.router.closeModule()
 			},
 			popToRootHandler: {
@@ -54,7 +54,7 @@ private extension PrototypeCoordinator {
 				wSelf?.openUnitModal()
 			},
 			closeModalHandler: {
-				wSelf?.router.closeModule()
+				wSelf?.router.dismissModule()
 			}
 		)
 
@@ -70,7 +70,7 @@ private extension PrototypeCoordinator {
 			pushModuleHandler: {
 				wSelf?.showModule()
 			},
-			popUnitOrModuleHandler: {
+			closeUnitOrModuleHandler: {
 				wSelf?.router.closeModule()
 			},
 			popToRootHandler: {

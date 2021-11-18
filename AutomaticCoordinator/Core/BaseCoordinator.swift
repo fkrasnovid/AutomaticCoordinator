@@ -11,7 +11,7 @@ open class BaseCoordinator {
 	private let listener = DefaultLifeCycleListener()
 
 	/// Дочерние координаторы
-	private var childCoordinators: [AnyObject] = []
+	private var childCoordinators: [BaseCoordinator] = []
 
 	/// Свойство позволяет считать кол-во юнитов в координаторе
 	/// Если счетчик >= 0 удаляем себя из родительского координатора
@@ -21,7 +21,7 @@ open class BaseCoordinator {
 			assert(countUnits >= 0, "countUnits: \(countUnits) что то пошло не так, исправь!")
 			if countUnits == 0 {
 				Logger.log("Удалил зависимость \(currentName) из \(parentName)")
-				parentCoordinator?.removeDependency(self)
+				parentCoordinator?.removeChild(self)
 			}
 		}
 	}
@@ -50,7 +50,7 @@ open class BaseCoordinator {
 // MARK: - Private life cycle
 
 private extension BaseCoordinator {
-	func addDependency(_ coordinator: BaseCoordinator) {
+	func addChild(_ coordinator: BaseCoordinator) {
 		guard !childCoordinators.contains(where: { $0 === coordinator }) else {
 			return
 		}
@@ -58,7 +58,7 @@ private extension BaseCoordinator {
 		childCoordinators.append(coordinator)
 	}
 
-	func removeDependency(_ coordinator: BaseCoordinator) {
+	func removeChild(_ coordinator: BaseCoordinator) {
 		childCoordinators.removeAll { $0 === coordinator }
 	}
 
@@ -70,7 +70,7 @@ private extension BaseCoordinator {
 	func increment() {
 		if countUnits == 0 {
 			Logger.log("Добавил зависимость \(currentName) в \(parentName)")
-			parentCoordinator?.addDependency(self)
+			parentCoordinator?.addChild(self)
 		}
 		countUnits += 1
 	}
@@ -91,10 +91,10 @@ private extension BaseCoordinator {
 	}
 
 	func dismissNotify(event: ApplicationRouter.RouterEvent) {
-		Logger.log("Дисмисс")
+		Logger.log("Дисмисс \(event)")
 		switch event {
 		case .uikit: removeAll()
-		case .userInitiative: routerAsTheRoot(router)?.parentCoordinator?.removeDependency(self)
+		case .userInitiative: routerAsTheRoot(router)?.parentCoordinator?.removeChild(self)
 		}
 	}
 }

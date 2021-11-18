@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		AutomaticCoordinatorConfiguration.enabledDebugLog(true)
 		
+		setupAppearance()
+
 		window = UIWindow(frame: UIScreen.main.bounds)
 		window?.makeKeyAndVisible()
 		let navVc = SystemNavigationController(hideNavigationBar: true)
@@ -30,5 +32,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.appCoordinator = appCoordinator
 		return true
 	}
-}
 
+	func setupAppearance() {
+		guard #available(iOS 15, *) else {
+			UITabBar.appearance().barTintColor = .customMint
+			UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.clear], for: .normal)
+			UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.clear], for: .normal)
+
+			UINavigationBar.appearance().barTintColor = .customMint
+			UINavigationBar.appearance().tintColor = .white
+			UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor.white]
+			
+			return
+		}
+	}
+}

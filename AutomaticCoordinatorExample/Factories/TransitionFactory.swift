@@ -15,10 +15,10 @@ protocol TransitionFactoryProtocol: AnyObject {
 }
 
 final class TransitionFactory: TransitionFactoryProtocol {
-	let fade: Transition = FadeTransition()
-	let dismiss: Transition = DismissTransition()
-	let crossDissolve: Transition = CrossDissolveTransition()
-	let custom: Transition = StraightLineTransition()
+	var fade: Transition { FadeTransition() }
+	var dismiss: Transition { DismissTransition() }
+	var crossDissolve: Transition { CrossDissolveTransition() }
+	var custom: Transition { StraightLineTransition() }
 
 	static let shared = TransitionFactory()
 	private init() {}

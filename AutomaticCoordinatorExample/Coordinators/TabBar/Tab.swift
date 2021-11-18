@@ -16,15 +16,20 @@ enum Tab: Int, CaseIterable {
 
 	var info: TabItemInfo {
 		switch self {
-		case .one: return .init(title: "One")
-		case .two: return .init(title: "Two")
-		case .three: return .init(title: "Three")
-		case .four: return .init(title: "Four")
-		case .five: return .init(title: "Five")
+		case .one: return .init(selectedImage: imageTab)
+		case .two: return .init(selectedImage: imageTab)
+		case .three: return .init(selectedImage: imageTab)
+		case .four: return .init(selectedImage: imageTab)
+		case .five: return .init(selectedImage: imageTab)
 		}
 	}
 
 	struct TabItemInfo {
-		let title: String
+		let normalImage: UIImage = UIImage(named: "normalTab")!
+		let selectedImage: UIImage
+	}
+
+	private var imageTab: UIImage {
+		UIImage(named: String(self.rawValue))!
 	}
 }

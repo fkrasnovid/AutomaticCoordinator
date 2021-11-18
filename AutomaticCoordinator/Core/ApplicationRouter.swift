@@ -63,7 +63,12 @@ extension ApplicationRouter: Routable {
 	public func popModule(transition: Transition?, animated: Bool, completion: (() -> Void)?) {
 		popTransition = transition
 		rootController?.popViewController(animated: animated, completion: completion)
-		lastListener?.decrement()
+
+		/*
+		 Важно!
+		 Если в SystemNavigation переопределен метод popViewController - мы его перехватываем и делаем декремент line:28
+		 Если переопределения нет, необходимо тут вызывать lastListener?.decrement() для валидного подсчета ссылок модулей
+		 */
 	}
 
 	public func presentModule(
@@ -151,9 +156,15 @@ extension ApplicationRouter: UINavigationControllerDelegate {
 		willShow _: UIViewController,
 		animated _: Bool
 	) {
-		navigationController.topViewController?.transitionCoordinator?.notifyWhenInteractionChanges {
+		/*
+		 Важно!
+		 Если в SystemNavigation переопределен метод popViewController - мы его перехватываем и делаем декремент line:28
+		 Если переопределения нет, необходимо тут вызывать
+		 navigationController.topViewController?.transitionCoordinator?.notifyWhenInteractionChanges {
 			if !$0.isCancelled { self.lastListener?.decrement() }
-		}
+		 }
+		 для валидного подсчета ссылок модулей
+		 */
 	}
 }
 

@@ -50,7 +50,7 @@ extension PrototypeStartupCoordinator: Coordinator {
 }
 
 extension PrototypeStartupCoordinator: PrototypeStartupModuleOutput {
-	func moduleFinish(with deeplink: PrototypeStartupCoordinator.Deeplink) {
+	func moduleFinish(with deeplink: Deeplink) {
 		output?.startupFinish(deeplink: deeplink)
 	}
 }

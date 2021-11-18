@@ -13,21 +13,16 @@ protocol TabFactoryProtocol {
 
 final class TabFactory: TabFactoryProtocol {
 	func makeBarItem(for tab: Tab) -> UITabBarItem {
-		return UITabBarItem(rootTab: tab).decorateBarItem()
+		return UITabBarItem(rootTab: tab)
 	}
 }
 
 private extension UITabBarItem {
 	convenience init(rootTab: Tab) {
 		self.init(
-			title: rootTab.info.title,
-			image: nil,
-			selectedImage: nil
+			title: nil,
+			image: rootTab.info.normalImage,
+			selectedImage: rootTab.info.selectedImage
 		)
-	}
-
-	func decorateBarItem() -> UITabBarItem {
-		imageInsets = .init(top: 2, left: 0, bottom: -2, right: 0)
-		return self
 	}
 }

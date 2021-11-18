@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		786BD8AD27456E7A00329254 /* SystemNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E47D26BFEA180016D61A /* SystemNavigationController.swift */; };
 		78C0E45626BF0E850016D61A /* AutomaticCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C0E45426BF0E850016D61A /* AutomaticCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		78C0E46226BF0F900016D61A /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E46126BF0F900016D61A /* UINavigationController+.swift */; };
 		78C0E46426BF0FB90016D61A /* AnyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E46326BF0FB90016D61A /* AnyCoordinator.swift */; };
@@ -19,7 +20,6 @@
 		78C0E47826BFE5AD0016D61A /* ModalPresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E47726BFE5AD0016D61A /* ModalPresentationStyle.swift */; };
 		78C0E47A26BFE5BC0016D61A /* ModalTransitionStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E47926BFE5BC0016D61A /* ModalTransitionStyle.swift */; };
 		78C0E47C26BFE93B0016D61A /* ApplicationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E47B26BFE93B0016D61A /* ApplicationRouter.swift */; };
-		78C0E47E26BFEA180016D61A /* SystemNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E47D26BFEA180016D61A /* SystemNavigationController.swift */; };
 		78C0E48026BFEB3A0016D61A /* DefaultLifeCycleListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E47F26BFEB3A0016D61A /* DefaultLifeCycleListener.swift */; };
 		78C0E48226BFEB6F0016D61A /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E48126BFEB6F0016D61A /* BaseCoordinator.swift */; };
 		78C0E48426BFEBAD0016D61A /* AutomaticCoordinatorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C0E48326BFEBAD0016D61A /* AutomaticCoordinatorConfiguration.swift */; };
@@ -139,6 +139,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		786BD8AE27456E7E00329254 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				78C0E47D26BFEA180016D61A /* SystemNavigationController.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		78C0E44726BF0E840016D61A = {
 			isa = PBXGroup;
 			children = (
@@ -195,7 +203,6 @@
 				78C0E46326BF0FB90016D61A /* AnyCoordinator.swift */,
 				78C0E47B26BFE93B0016D61A /* ApplicationRouter.swift */,
 				78C0E48126BFEB6F0016D61A /* BaseCoordinator.swift */,
-				78C0E47D26BFEA180016D61A /* SystemNavigationController.swift */,
 				78C0E47F26BFEB3A0016D61A /* DefaultLifeCycleListener.swift */,
 			);
 			path = Core;
@@ -272,6 +279,7 @@
 				78C0E4B026BFF52E0016D61A /* PrototypeStartupCoordinator.swift */,
 				78C0E4CC26C016D10016D61A /* PrototypeTabCoordinator.swift */,
 				78C0E4CE26C016E40016D61A /* PrototypeCoordinator.swift */,
+				786BD8AE27456E7E00329254 /* Navigation */,
 				78C0E4CB26C016B80016D61A /* TabBar */,
 			);
 			path = Coordinators;
@@ -427,7 +435,6 @@
 				78C0E47226BF11170016D61A /* LifeCycleListener.swift in Sources */,
 				78C0E48226BFEB6F0016D61A /* BaseCoordinator.swift in Sources */,
 				78C0E47026BF10E10016D61A /* Presentable.swift in Sources */,
-				78C0E47E26BFEA180016D61A /* SystemNavigationController.swift in Sources */,
 				78C0E46E26BF10C00016D61A /* Routable.swift in Sources */,
 				78C0E48426BFEBAD0016D61A /* AutomaticCoordinatorConfiguration.swift in Sources */,
 				78C0E46226BF0F900016D61A /* UINavigationController+.swift in Sources */,
@@ -462,6 +469,7 @@
 				78C0E4CD26C016D10016D61A /* PrototypeTabCoordinator.swift in Sources */,
 				78C0E4D326C03DA50016D61A /* SystemTabBarController.swift in Sources */,
 				78C0E4C026BFFB5E0016D61A /* CrossDissolveTransition.swift in Sources */,
+				786BD8AD27456E7A00329254 /* SystemNavigationController.swift in Sources */,
 				78C0E4B526BFF8CA0016D61A /* PrototypeStartupViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -630,7 +638,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = KF.AutomaticCoordinator;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -659,7 +667,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = KF.AutomaticCoordinator;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

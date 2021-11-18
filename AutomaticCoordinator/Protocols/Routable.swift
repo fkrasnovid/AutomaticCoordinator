@@ -76,7 +76,7 @@ public extension Routable {
 	func presentModule(
 		_ module: Presentable,
 		animated: Bool = true,
-		presentationStyle: ModalPresentationStyle = .fullScreen,
+		presentationStyle: ModalPresentationStyle = .pageSheet,
 		transitionStyle: ModalTransitionStyle = .coverVertical,
 		completion: (() -> Void)? = nil
 	) {

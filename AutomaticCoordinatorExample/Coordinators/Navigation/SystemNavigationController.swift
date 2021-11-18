@@ -1,7 +1,7 @@
 
 import UIKit
+import AutomaticCoordinator
 
-/// Реализация UINavigationController для работы корректной системы
 open class SystemNavigationController: UINavigationController, UIGestureRecognizerDelegate, SystemNavigation {
 	public var popToRootHandler: (() -> Void)?
 	public var popHandler: (() -> Void)?
@@ -36,6 +36,22 @@ open class SystemNavigationController: UINavigationController, UIGestureRecogniz
 		navigationBar.isHidden = hideNavigationBar
 		interactivePopGestureRecognizer?.isEnabled = true
 		interactivePopGestureRecognizer?.delegate = self
+
+
+		if #available(iOS 15.0, *) {
+			let appearance = UINavigationBarAppearance()
+			let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
+			appearance.configureWithDefaultBackground()
+			appearance.backgroundColor = .systemMint
+			appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+
+			buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
+			UINavigationBar.appearance().tintColor = UIColor.white
+			appearance.buttonAppearance = buttonAppearance
+
+			navigationBar.standardAppearance = appearance
+			navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
+		}
 	}
 
 	public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -44,5 +60,5 @@ open class SystemNavigationController: UINavigationController, UIGestureRecogniz
 		}
 
 		return viewControllers.count > 1 && presentedViewController == nil
-	}
+	}	
 }

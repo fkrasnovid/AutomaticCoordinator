@@ -66,7 +66,7 @@ extension PrototypeTabCoordinator {
 			pushModuleHandler: {
 				wSelf?.showModule()
 			},
-			popUnitOrModuleHandler: {
+			closeUnitOrModuleHandler: {
 				wSelf?.router.closeModule()
 			},
 			popToRootHandler: {
@@ -90,14 +90,14 @@ extension PrototypeTabCoordinator {
 				wSelf?.presentModule()
 			},
 			closeModalHandler: {
-				wSelf?.router.closeModule()
+				wSelf?.router.dismissModule()
 			}
 		)
 
 		if #available(iOS 13.0, *) {
 			router.presentModule(module, presentationStyle: .automatic)
 		} else {
-			router.presentModule(module, presentationStyle: .fullScreen)
+			router.presentModule(module, presentationStyle: .overFullScreen)
 		}
 	}
 
@@ -112,7 +112,7 @@ extension PrototypeTabCoordinator {
 		if #available(iOS 13.0, *) {
 			router.presentModule(unit.view, presentationStyle: .automatic)
 		} else {
-			router.presentModule(unit.view, presentationStyle: .fullScreen)
+			router.presentModule(unit.view, presentationStyle: .overFullScreen)
 		}
 	}
 }

@@ -15,16 +15,6 @@ final class ModuleFactory: ModuleFactoryProtocol {
 		return PrototypeStartupViewController(output: output, deeplink: deeplink)
 	}
 
-	/*
-	let pushUnitHandler: (() -> Void)?
-	let pushModuleHandler: (() -> Void)?
-	let popUnitHandler: (() -> Void)?
-	let popToRootHandler: (() -> Void)?
-	let modalModuleHandler: (() -> Void)?
-	let modalUnitHandler: (() -> Void)?
-	let closeModalHandler: (() -> Void)?
-	*/
-
 	func makeTabModule(
 		pushUnitHandler: @escaping () -> Void,
 		pushModuleHandler: @escaping () -> Void,
@@ -35,7 +25,7 @@ final class ModuleFactory: ModuleFactoryProtocol {
 			model: .init(
 				pushUnitHandler: pushUnitHandler,
 				pushModuleHandler: pushModuleHandler,
-				popUnitOrModuleHandler: nil,
+				closeUnitOrModuleHandler: nil,
 				popToRootHandler: nil,
 				modalModuleHandler: modalModuleHandler,
 				modalUnitHandler: modalUnitHandler,
@@ -47,7 +37,7 @@ final class ModuleFactory: ModuleFactoryProtocol {
 	func makePushModule(
 		pushUnitHandler: @escaping () -> Void,
 		pushModuleHandler: @escaping () -> Void,
-		popUnitOrModuleHandler: @escaping () -> Void,
+		closeUnitOrModuleHandler: @escaping () -> Void,
 		popToRootHandler: @escaping () -> Void,
 		modalModuleHandler: @escaping () -> Void,
 		modalUnitHandler: @escaping () -> Void
@@ -56,7 +46,7 @@ final class ModuleFactory: ModuleFactoryProtocol {
 			model: .init(
 				pushUnitHandler: pushUnitHandler,
 				pushModuleHandler: pushModuleHandler,
-				popUnitOrModuleHandler: popUnitOrModuleHandler,
+				closeUnitOrModuleHandler: closeUnitOrModuleHandler,
 				popToRootHandler: popToRootHandler,
 				modalModuleHandler: modalModuleHandler,
 				modalUnitHandler: modalUnitHandler,
@@ -68,7 +58,7 @@ final class ModuleFactory: ModuleFactoryProtocol {
 	func makePrototypeModule(
 		pushUnitHandler: @escaping () -> Void,
 		pushModuleHandler: @escaping () -> Void,
-		popUnitOrModuleHandler: @escaping () -> Void,
+		closeUnitOrModuleHandler: @escaping () -> Void,
 		popToRootHandler: @escaping () -> Void,
 		modalModuleHandler: @escaping () -> Void,
 		modalUnitHandler: @escaping () -> Void,
@@ -78,7 +68,7 @@ final class ModuleFactory: ModuleFactoryProtocol {
 			model: .init(
 				pushUnitHandler: pushUnitHandler,
 				pushModuleHandler: pushModuleHandler,
-				popUnitOrModuleHandler: popUnitOrModuleHandler,
+				closeUnitOrModuleHandler: closeUnitOrModuleHandler,
 				popToRootHandler: popToRootHandler,
 				modalModuleHandler: modalModuleHandler,
 				modalUnitHandler: modalUnitHandler,
@@ -95,7 +85,7 @@ final class ModuleFactory: ModuleFactoryProtocol {
 			model: .init(
 				pushUnitHandler: nil,
 				pushModuleHandler: nil,
-				popUnitOrModuleHandler: nil,
+				closeUnitOrModuleHandler: nil,
 				popToRootHandler: nil,
 				modalModuleHandler: modalModuleHandler,
 				modalUnitHandler: nil,
@@ -117,7 +107,7 @@ protocol ModuleFactoryProtocol: AnyObject {
 	func makePushModule(
 		pushUnitHandler: @escaping () -> Void,
 		pushModuleHandler: @escaping () -> Void,
-		popUnitOrModuleHandler: @escaping () -> Void,
+		closeUnitOrModuleHandler: @escaping () -> Void,
 		popToRootHandler: @escaping () -> Void,
 		modalModuleHandler: @escaping () -> Void,
 		modalUnitHandler: @escaping () -> Void
@@ -126,7 +116,7 @@ protocol ModuleFactoryProtocol: AnyObject {
 	func makePrototypeModule(
 		pushUnitHandler: @escaping () -> Void,
 		pushModuleHandler: @escaping () -> Void,
-		popUnitOrModuleHandler: @escaping () -> Void,
+		closeUnitOrModuleHandler: @escaping () -> Void,
 		popToRootHandler: @escaping () -> Void,
 		modalModuleHandler: @escaping () -> Void,
 		modalUnitHandler: @escaping () -> Void,

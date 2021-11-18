@@ -16,4 +16,8 @@ extension UIColor {
 			alpha: 1.0
 		)
 	}
+
+	static var customMint: UIColor {
+		return .init(red: 89/255, green: 196/255, blue: 189/255, alpha: 1)
+	}
 }
